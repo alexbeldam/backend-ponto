@@ -18,7 +18,12 @@ rotas.delete("/usuarios/:id", verificarJwt, UsuarioValidator.update, UsuariosCon
 
 rotas.post("/sessoes", verificarJwt, SessaoValidator.create, SessoesController.create);
 rotas.get("/sessoes", verificarJwt, SessoesController.read);
-rotas.delete("/sessoes/:id", verificarJwt, SessaoValidator.destroy, SessoesController.delete);
+rotas.delete(
+  "/sessoes/:id_usuario",
+  verificarJwt,
+  SessaoValidator.destroy,
+  SessoesController.delete
+);
 
 rotas.post("/login", AuthValidator.login, AuthController.login);
 
