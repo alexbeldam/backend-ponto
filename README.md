@@ -5,7 +5,16 @@
 <h1 align="center"><strong>Desafio Backend 💻</strong></h1>
 
 <p align="center">
- <a href="#tecnologias">Tecnologias</a> • 
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" />
+  <img src="https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens" />
+  <img src="https://img.shields.io/badge/bcrypt-006400?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/dotenv-8B4513?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Zod-ff5f5f?style=for-the-badge" />
+</p>
+
+<p align="center">
  <a href="#primeiros-passos">Primeiros Passos</a> • 
  <a href="#endpoints">Endpoints</a> •
  <a href="#logica-de-funcionamento">Lógica de Funcionamento</a> •
@@ -15,18 +24,6 @@
 <p align="center">
     <b>API desenvolvida como parte de um desafio de trainee proposto pela <a href="https://github.com/cpejr" target="_blank">CPE Jr.</a></b>
 </p>
-
----
-
-<h2 id="tecnologias">💻 Tecnologias</h2>
-
-- Node.js
-- Express
-- MongoDB + Mongoose
-- JSON Web Token (JWT)
-- bcrypt (hash de senhas)
-- dotenv (variáveis de ambiente)
-- zod + zod-express-middleware (validação)
 
 ---
 
