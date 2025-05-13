@@ -5,9 +5,9 @@ class UsuariosController {
     try {
       const usuario = await UsuarioModel.create(req.body);
 
-      const { senha, ...safeUsuario } = usuario.toObject();
+      const { senha, ...payload } = usuario.toObject();
 
-      return res.status(200).json(safeUsuario);
+      return res.status(200).json(payload);
     } catch (error) {
       return res.status(500).json({ message: "Lascou-se", error: error.message });
     }
