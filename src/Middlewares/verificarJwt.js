@@ -16,6 +16,7 @@ function verificarJwt(req, res, next) {
     if (err) return res.status(403).json({ message: "JWT token inválido" });
 
     req.usuarioId = usuario._id;
+    req.permissao = usuario.permissao;
 
     next();
   });
