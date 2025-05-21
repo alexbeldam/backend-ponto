@@ -6,23 +6,34 @@ class SessoesController {
     try {
       const usuario = await UsuarioModel.findById(req.body.id_usuario);
 
-      if (!usuario) res.status(404).json({ message: "Usuário não encontrado" });
+      if (!usuario) return res.status(404).json({ message: "Usuário não encontrado." });
 
-      const sessoes = await SessoesModel.create(req.body);
+      const sessao = await SessoesModel.create(req.body);
 
-      return res.status(200).json(sessoes);
+      return res.status(200).json({ sessao });
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      if (error.code === 11000)
+        return res.status(409).json({ message: `Já existe uma sessão ativa.` });
+
+      console.error("[Create Session Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao criar sessão. Tente novamente mais tarde." });
     }
   }
 
   async read(req, res) {
     try {
-      const sessoess = await SessoesModel.find().populate("id_usuario", "-senha");
+      const sessoes = await SessoesModel.find().populate("id_usuario");
 
-      return res.status(200).json(sessoess);
+      return res.status(200).json({ sessoes });
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      console.error("[Read Sessions Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao ler sessões. Tente novamente mais tarde." });
     }
   }
 
@@ -31,13 +42,17 @@ class SessoesController {
       const { id_usuario } = req.params;
       const sessao = await SessoesModel.findOne({ id_usuario });
 
-      if (!sessao) return res.status(404).json({ message: "Sessão não encontrada" });
+      if (!sessao) return res.status(404).json({ message: "Sessão não encontrada." });
 
       await sessao.deleteOne();
 
-      return res.status(200).json({ mensagem: "Sessão deletada com sucesso!" });
+      return res.status(200);
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      console.error("[Delete Session Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao deletar sessão. Tente novamente mais tarde." });
     }
   }
 }

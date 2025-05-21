@@ -7,9 +7,25 @@ class UsuariosController {
 
       const { senha, ...payload } = usuario.toObject();
 
-      return res.status(200).json(payload);
+      return res.status(200).json({ payload });
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      if (error.code === 11000) {
+        const fieldLabels = {
+          email: "E-mail",
+          nome: "Nome",
+        };
+
+        const field = Object.keys(error.keyValue)[0];
+        const label = fieldLabels[field] || field;
+
+        return res.status(409).json({ message: `${label} já cadastrado.` });
+      }
+
+      console.error("[Create User Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao criar usuário. Tente novamente mais tarde." });
     }
   }
 
@@ -17,9 +33,13 @@ class UsuariosController {
     try {
       const usuarios = await UsuarioModel.find();
 
-      return res.status(200).json(usuarios);
+      return res.status(200).json({ usuarios });
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      console.error("[Read Users Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao ler usuários. Tente novamente mais tarde." });
     }
   }
 
@@ -28,13 +48,29 @@ class UsuariosController {
       const { id } = req.params;
       const usuario = await UsuarioModel.findById(id);
 
-      if (!usuario) return res.status(404).json({ message: "Usuário não encontrado" });
+      if (!usuario) return res.status(404).json({ message: "Usuário não encontrado." });
 
       const updated = await usuario.set(req.body).save();
 
-      return res.status(200).json(updated);
+      return res.status(200).json({ updated });
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      if (error.code === 11000) {
+        const fieldLabels = {
+          email: "E-mail",
+          nome: "Nome",
+        };
+
+        const field = Object.keys(error.keyValue)[0];
+        const label = fieldLabels[field] || field;
+
+        return res.status(409).json({ message: `${label} em uso.` });
+      }
+
+      console.error("[Update User Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao atualizar usuário. Tente novamente mais tarde." });
     }
   }
 
@@ -43,13 +79,17 @@ class UsuariosController {
       const { id } = req.params;
       const usuario = await UsuarioModel.findById(id);
 
-      if (!usuario) return res.status(404).json({ message: "Usuário não encontrado" });
+      if (!usuario) return res.status(404).json({ message: "Usuário não encontrado." });
 
       await usuario.deleteOne();
 
-      return res.status(200).json({ mensagem: "Usuario deletado com sucesso!" });
+      return res.status(200);
     } catch (error) {
-      return res.status(500).json({ message: "Lascou-se", error: error.message });
+      console.error("[Delete User Error]", error);
+
+      return res
+        .status(500)
+        .json({ message: "Erro interno ao deletar usuário. Tente novamente mais tarde." });
     }
   }
 }
