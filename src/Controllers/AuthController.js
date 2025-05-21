@@ -17,7 +17,7 @@ class AuthController {
 
       const { senha: _, ...usuario } = user.toObject();
 
-      const token = jwt.sign(usuario, process.env.JWT_SECRET, {
+      const token = jwt.sign({ usuario }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_MAX_AGE,
       });
 
