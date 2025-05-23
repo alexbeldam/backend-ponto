@@ -46,7 +46,7 @@ class SessoesController {
 
       await sessao.deleteOne();
 
-      return res.status(200);
+      return res.sendStatus(200);
     } catch (error) {
       console.error("[Delete Session Error]", error);
 

@@ -83,7 +83,7 @@ class UsuariosController {
 
       await usuario.deleteOne();
 
-      return res.status(200);
+      return res.sendStatus(200);
     } catch (error) {
       console.error("[Delete User Error]", error);
 
