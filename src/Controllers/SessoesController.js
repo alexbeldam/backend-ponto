@@ -25,7 +25,7 @@ class SessoesController {
 
   async read(req, res) {
     try {
-      const sessoes = await SessoesModel.find().populate("id_usuario");
+      const sessoes = await SessoesModel.find().sort({ createdAt: -1 }).populate("id_usuario");
 
       return res.status(200).json({ sessoes });
     } catch (error) {
