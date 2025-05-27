@@ -31,7 +31,7 @@ class UsuariosController {
 
   async read(req, res) {
     try {
-      const usuarios = await UsuarioModel.find();
+      const usuarios = await UsuarioModel.find().sort({ permissao: -1, nome: 1 });
 
       return res.status(200).json({ usuarios });
     } catch (error) {
